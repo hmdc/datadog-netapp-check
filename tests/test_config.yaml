@@ -1,0 +1,13 @@
+init_config:
+
+instances:
+- name: localhost
+  host: localhost
+  port: 4443
+  username: xyz
+  password: xyz
+  apiVersionMajor: 1
+  apiVersionMinor: 20
+
+pythonpath:
+- /nfs/tools/lib/netapp/sdk/lib/python/NetApp
