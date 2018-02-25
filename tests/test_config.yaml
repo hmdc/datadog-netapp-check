@@ -5,7 +5,7 @@ instances:
   host: localhost
   port: 4443
   username: datadog
-  password: "xyz"
+  password_file: './tests/password.txt'
   apiVersionMajor: 1
   apiVersionMinor: 20
 

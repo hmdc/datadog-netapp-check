@@ -19,10 +19,10 @@ class NetappCheck(AgentCheck):
             if 'username' in i is False:
                 raise Exception('Must specify a username for ONTAP.')
 
-            if 'password' and 'password_file' in i:
+            if 'password' in i and 'password_file' in i:
                 raise Exception('Must specify either password or password_file, not both.')
 
-            if 'password' and 'password_file' in i is False:
+            if ('password' in i or 'password_file' in i) is False:
                 raise Exception('Must specify a password or password_file for ONTAP.')
 
             if 'apiVersionMajor' in i is False:
@@ -30,6 +30,16 @@ class NetappCheck(AgentCheck):
 
             if 'apiVersionMinor' in i is False:
                 raise Exception('Must specify an apiVersionMinor.')
+
+            if 'password_file' in i:
+                try:
+                    with open(i.get('password_file'), 'r') as pf:
+                        password = pf.read().strip()
+                except Exception as e:
+                    self.log.critical("Unable to open password_file %s, error %s" %(i.get('password_file'), repr(e)))
+                    return
+            else:
+                password = i.get('password')
 
             api_version_major, api_version_minor = i.get('apiVersionMajor'), i.get('apiVersionMinor')
 
@@ -48,13 +58,20 @@ class NetappCheck(AgentCheck):
             __svm__ = NaServer(i['host'], i['apiVersionMajor'], i['apiVersionMinor'])
             __svm__.set_style('LOGIN')
             __svm__.set_transport_type('HTTPS')
-            __svm__.set_admin_user(i['username'], i['password'])
+            __svm__.set_admin_user(i['username'], password)
             __svm__.set_port(int(i.get('port', 443)))
             __svm__.set_timeout(10)
 
             self.svms[i['name']] = __svm__
 
     def check(self, instance):
+        """
+        :param instance:
+        :type instance:
+        :return:
+        :rtype:
+        """
+
         name = instance.get('name', None)
         host = instance.get('host', None)
         tags = instance.get('tags', [])
