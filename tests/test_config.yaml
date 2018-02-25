@@ -4,8 +4,8 @@ instances:
 - name: localhost
   host: localhost
   port: 4443
-  username: xyz
-  password: xyz
+  username: datadog
+  password: "xyz"
   apiVersionMajor: 1
   apiVersionMinor: 20
 
