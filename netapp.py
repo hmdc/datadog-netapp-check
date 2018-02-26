@@ -3,9 +3,9 @@ from NaServer import *
 from distutils.util import strtobool
 
 
-class NetappCheck(AgentCheck):
+class NetappIntegrationCheck(AgentCheck):
     def __init__(self, name, init_config, agentConfig, instances=[]):
-        super(NetappCheck, self).__init__(name, init_config, agentConfig, instances)
+        super(NetappIntegrationCheck, self).__init__(name, init_config, agentConfig, instances)
 
         self.svms = {}
 
