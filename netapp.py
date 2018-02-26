@@ -1,7 +1,19 @@
 from checks import AgentCheck
+import sys
+sys.paths.extend(['/nfs/tools/lib/netapp/sdk/lib/python/NetApp'])
 from NaServer import *
 from distutils.util import strtobool
 
+import ssl
+
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    # Legacy Python that doesn't verify HTTPS certificates by default
+    pass
+else:
+    # Handle target environment that doesn't support HTTPS verification
+    ssl._create_default_https_context = _create_unverified_https_context
 
 class NetappIntegrationCheck(AgentCheck):
     def __init__(self, name, init_config, agentConfig, instances=[]):
@@ -87,7 +99,7 @@ class NetappIntegrationCheck(AgentCheck):
         status = system_nodes_parent.attr_get('status')
 
         if status == "failed":
-            self.log.critical('Query against NetApp %s failed with %s' %(host, repr(status)))
+            self.log.critical('Query against NetApp %s failed with %s' %(host, repr(system_nodes_parent.toEncodedString())))
             self.service_check('netapp.can_connect_https', AgentCheck.CRITICAL, tags=tags, message=repr(system_nodes_parent.toEncodedString()))
             return
         else:
