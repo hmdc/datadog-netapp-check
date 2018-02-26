@@ -138,11 +138,11 @@ class NetappIntegrationCheck(AgentCheck):
 
                 _tags = tags + ['netapp_volume:%s' %(volume_name), 'netapp_svm:%s' %(svm_name)]
 
-                self.count('netapp.inodes', inodes, tags=_tags)
+                self.gauge('netapp.inodes', inodes, tags=_tags)
                 self.gauge('netapp.inodes_percent_used', inodes_percent, tags=_tags)
-                self.count('netapp.physical_used', physical_used, tags=_tags)
+                self.gauge('netapp.physical_used', physical_used, tags=_tags)
                 self.gauge('netapp.physical_percent', physical_percent, tags=_tags)
-                self.count('netapp.total_used', total_used, tags=_tags)
+                self.gauge('netapp.total_used', total_used, tags=_tags)
                 self.gauge('netapp.total_used_percent', total_used_percent, tags=_tags)
 
             next_tag = volume_list_iterator.child_get_string('next-tag')
