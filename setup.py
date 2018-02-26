@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='datadog-netapp-check',
-    version='1.0.1',
+    version='1.0.2',
     packages=[''],
     url='https://github.com/hmdc/datadog-netapp-check',
     license='MIT',

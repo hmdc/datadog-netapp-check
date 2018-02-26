@@ -1,6 +1,6 @@
 from checks import AgentCheck
 import sys
-sys.paths.extend(['/nfs/tools/lib/netapp/sdk/lib/python/NetApp'])
+sys.path.extend(['/nfs/tools/lib/netapp/sdk/lib/python/NetApp'])
 from NaServer import *
 from distutils.util import strtobool
 
